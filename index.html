@@ -42,7 +42,7 @@
         font-family: "Roboto", sans-serif;
         font-weight: 400;
         line-height: 1.5;
-        color: #333;
+        color: #555;
         background-color: #fff;
         text-align: left;
       }
@@ -82,12 +82,22 @@
       .time-control-container {
         margin-top: 1.5rem;
       }
-      .timer-btn {
+      .timer-btn:link,
+      .timer-btn:visited {
         max-width: 200px;
         display: inline-block;
         cursor: pointer;
         text-transform: uppercase;
         margin-right: 1.5rem;
+        text-decoration: none;
+      }
+      .timer-btn:active,
+      .timer-btn:hover {
+        text-decoration: none;
+      }
+      .timer-btn:active {
+        transform: translateY(1px);
+        box-shadow: 0px 0px 3px 6px #f3f3f3;
       }
       .timer-btn--timerstart,
       .timer-btn--timerresume {
@@ -120,12 +130,10 @@
       ></div>
 
       <div class="time-control-container clr-fl">
-        <div class="timer-btn--timerstart timer-btn">
-          start
-        </div>
-        <div class="timer-btn--timerpause timer-btn">pause</div>
-        <div class="timer-btn--timerreset timer-btn">reset</div>
-        <div class="timer-btn--timerresume timer-btn">start</div>
+        <a href="#" class="timer-btn--timerstart timer-btn">start</a>
+        <a href="#" class="timer-btn--timerpause timer-btn">pause</a>
+        <a href="#" class="timer-btn--timerreset timer-btn">reset</a>
+        <a href="#" class="timer-btn--timerresume timer-btn">start</a>
       </div>
     </div>
 
@@ -133,12 +141,10 @@
       <div class="timer timer2 alert alert-primary" data-seconds-left="6"></div>
 
       <div class="time-control-container clr-fl">
-        <div class="timer-btn--timerstart timer-btn">
-          start
-        </div>
-        <div class="timer-btn--timerpause timer-btn">pause</div>
-        <div class="timer-btn--timerreset timer-btn">reset</div>
-        <div class="timer-btn--timerresume timer-btn">start</div>
+        <a href="#" class="timer-btn--timerstart timer-btn">start</a>
+        <a href="#" class="timer-btn--timerpause timer-btn">pause</a>
+        <a href="#" class="timer-btn--timerreset timer-btn">reset</a>
+        <a href="#" class="timer-btn--timerresume timer-btn">start</a>
       </div>
     </div>
 
@@ -180,7 +186,9 @@
         });
 
         // Start Timer On click
-        $(timerstartbtn).on("click", function() {
+        $(timerstartbtn).on("click", function(e) {
+          e.preventDefault();
+
           timer1.trigger("resetime");
           timer1.trigger("start");
 
@@ -193,7 +201,9 @@
         });
 
         // Pause Timer On click
-        $(timerpausetbtn).on("click", function() {
+        $(timerpausetbtn).on("click", function(e) {
+          e.preventDefault();
+
           timer1.trigger("pause");
 
           toggleElement([
@@ -205,7 +215,9 @@
         });
 
         // RESET Timer On click
-        $(timerresetbtn).on("click", function() {
+        $(timerresetbtn).on("click", function(e) {
+          e.preventDefault();
+
           timer1.trigger("resetime");
 
           toggleElement([
@@ -217,7 +229,9 @@
         });
 
         // RESUME Timer On click
-        $(timerresumebtn).on("click", function() {
+        $(timerresumebtn).on("click", function(e) {
+          e.preventDefault();
+
           timer1.trigger("resume");
 
           toggleElement([
@@ -229,7 +243,7 @@
         });
       })(jQuery);
 
-      // ===============================================================================================
+      // =================================== SECOND CALLBACK JS ========================================================
 
       (function($) {
         const selecterValue = ".timer2";
@@ -268,7 +282,9 @@
         });
 
         // Start Timer On click
-        $(timerstartbtn).on("click", function() {
+        $(timerstartbtn).on("click", function(e) {
+          e.preventDefault();
+
           timer1.trigger("resetime");
           timer1.trigger("start");
 
@@ -281,7 +297,9 @@
         });
 
         // Pause Timer On click
-        $(timerpausetbtn).on("click", function() {
+        $(timerpausetbtn).on("click", function(e) {
+          e.preventDefault();
+
           timer1.trigger("pause");
 
           toggleElement([
@@ -293,7 +311,9 @@
         });
 
         // RESET Timer On click
-        $(timerresetbtn).on("click", function() {
+        $(timerresetbtn).on("click", function(e) {
+          e.preventDefault();
+
           timer1.trigger("resetime");
 
           toggleElement([
@@ -305,7 +325,9 @@
         });
 
         // RESUME Timer On click
-        $(timerresumebtn).on("click", function() {
+        $(timerresumebtn).on("click", function(e) {
+          e.preventDefault();
+
           timer1.trigger("resume");
 
           toggleElement([
