@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>jQuery Counter Plugin | Counter with start and pause buttons</title>
+
+    <meta
+      name="description"
+      content="jquery timer plugin with reste and start pause buttons"
+    />
+
+    <meta name="keywords" content="jQuery,HTML,Css,Javascript" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="jquery-countdown-timer-control.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        font-size: 100%;
+      }
+      body {
+        font-size: 1rem;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #333;
+        background-color: #fff;
+        text-align: left;
+      }
+      .clr-fl::before,
+      .clr-fl::after {
+        content: "";
+        display: table;
+      }
+      .clr-fl::after {
+        clear: both;
+      }
+      .time-container {
+        max-width: calc(100% - 30px);
+        margin: 0 auto;
+        text-align: center;
+      }
+      .timer > div {
+        display: inline-block;
+        padding: 1rem;
+        font-size: 5rem;
+      }
+      .timer > div.jst-clearDiv {
+        padding: 0;
+        margin: 0;
+      }
+      .timer-label {
+        display: block;
+        font-size: 1.5rem;
+        text-align: left;
+        margin-left: 0.5rem;
+      }
+      .timer-btn {
+        padding: 1rem 2rem;
+        color: #fff;
+        font-size: 1rem;
+      }
+      .time-control-container {
+        margin-top: 1.5rem;
+      }
+      .timer-btn {
+        max-width: 200px;
+        display: inline-block;
+        cursor: pointer;
+        text-transform: uppercase;
+        margin-right: 1.5rem;
+      }
+      .timer-btn--timerstart,
+      .timer-btn--timerresume {
+        background-color: #68bd6a;
+      }
+      .timer-btn--timerpause {
+        background-color: #e54b22;
+      }
+      .timer-btn--timerreset {
+        background-color: rgb(255, 149, 79);
+      }
+      @media (max-width: 480px) {
+        .timer > div {
+          display: inline-block;
+          padding: 0.5rem;
+          font-size: 3rem;
+        }
+        .timer-label {
+          font-size: 1rem;
+          margin: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="time-container">
+      <div
+        class="timer timer1 alert alert-primary"
+        data-seconds-left="60"
+      ></div>
+
+      <div class="time-control-container clr-fl">
+        <div class="timer-btn--timerstart timer-btn">
+          start
+        </div>
+        <div class="timer-btn--timerpause timer-btn">pause</div>
+        <div class="timer-btn--timerreset timer-btn">reset</div>
+        <div class="timer-btn--timerresume timer-btn">start</div>
+      </div>
+    </div>
+
+    <div class="time-container">
+      <div class="timer timer2 alert alert-primary" data-seconds-left="6"></div>
+
+      <div class="time-control-container clr-fl">
+        <div class="timer-btn--timerstart timer-btn">
+          start
+        </div>
+        <div class="timer-btn--timerpause timer-btn">pause</div>
+        <div class="timer-btn--timerreset timer-btn">reset</div>
+        <div class="timer-btn--timerresume timer-btn">start</div>
+      </div>
+    </div>
+
+    <script>
+      (function($) {
+        const selecterValue = ".timer1";
+        const selecterValueParent = $(selecterValue).parent();
+        const timerstartbtn = selecterValueParent.find(
+          ".timer-btn--timerstart"
+        );
+        const timerpausetbtn = selecterValueParent.find(
+          ".timer-btn--timerpause"
+        );
+        const timerresetbtn = selecterValueParent.find(
+          ".timer-btn--timerreset"
+        );
+        const timerresumebtn = selecterValueParent.find(
+          ".timer-btn--timerresume"
+        );
+
+        const toggleElement = uiElements => {
+          uiElements.forEach(function(el) {
+            const type = el.t;
+            const element = el.el;
+            type === "show" ? element.show() : element.hide();
+          });
+        };
+
+        const timer1 = $(selecterValue).startTimer({
+          onComplete: function(element) {
+            toggleElement([
+              { el: timerstartbtn, t: "show" },
+              { el: timerresetbtn, t: "show" },
+              { el: timerresumebtn, t: "hide" },
+              { el: timerpausetbtn, t: "hide" }
+            ]);
+          },
+          loop: false
+        });
+
+        // Start Timer On click
+        $(timerstartbtn).on("click", function() {
+          timer1.trigger("resetime");
+          timer1.trigger("start");
+
+          toggleElement([
+            { el: timerstartbtn, t: "hide" },
+            { el: timerresetbtn, t: "show" },
+            { el: timerresumebtn, t: "hide" },
+            { el: timerpausetbtn, t: "show" }
+          ]);
+        });
+
+        // Pause Timer On click
+        $(timerpausetbtn).on("click", function() {
+          timer1.trigger("pause");
+
+          toggleElement([
+            { el: timerstartbtn, t: "hide" },
+            { el: timerresetbtn, t: "show" },
+            { el: timerresumebtn, t: "show" },
+            { el: timerpausetbtn, t: "hide" }
+          ]);
+        });
+
+        // RESET Timer On click
+        $(timerresetbtn).on("click", function() {
+          timer1.trigger("resetime");
+
+          toggleElement([
+            { el: timerstartbtn, t: "show" },
+            { el: timerresetbtn, t: "show" },
+            { el: timerresumebtn, t: "hide" },
+            { el: timerpausetbtn, t: "hide" }
+          ]);
+        });
+
+        // RESUME Timer On click
+        $(timerresumebtn).on("click", function() {
+          timer1.trigger("resume");
+
+          toggleElement([
+            { el: timerstartbtn, t: "hide" },
+            { el: timerresetbtn, t: "show" },
+            { el: timerresumebtn, t: "hide" },
+            { el: timerpausetbtn, t: "show" }
+          ]);
+        });
+      })(jQuery);
+
+      // ===============================================================================================
+
+      (function($) {
+        const selecterValue = ".timer2";
+        const selecterValueParent = $(selecterValue).parent();
+        const timerstartbtn = selecterValueParent.find(
+          ".timer-btn--timerstart"
+        );
+        const timerpausetbtn = selecterValueParent.find(
+          ".timer-btn--timerpause"
+        );
+        const timerresetbtn = selecterValueParent.find(
+          ".timer-btn--timerreset"
+        );
+        const timerresumebtn = selecterValueParent.find(
+          ".timer-btn--timerresume"
+        );
+
+        const toggleElement = uiElements => {
+          uiElements.forEach(function(el) {
+            const type = el.t;
+            const element = el.el;
+            type === "show" ? element.show() : element.hide();
+          });
+        };
+
+        var timer1 = $(selecterValue).startTimer({
+          onComplete: function(element) {
+            toggleElement([
+              { el: timerstartbtn, t: "show" },
+              { el: timerresetbtn, t: "show" },
+              { el: timerresumebtn, t: "hide" },
+              { el: timerpausetbtn, t: "hide" }
+            ]);
+          },
+          loop: false
+        });
+
+        // Start Timer On click
+        $(timerstartbtn).on("click", function() {
+          timer1.trigger("resetime");
+          timer1.trigger("start");
+
+          toggleElement([
+            { el: timerstartbtn, t: "hide" },
+            { el: timerresetbtn, t: "show" },
+            { el: timerresumebtn, t: "hide" },
+            { el: timerpausetbtn, t: "show" }
+          ]);
+        });
+
+        // Pause Timer On click
+        $(timerpausetbtn).on("click", function() {
+          timer1.trigger("pause");
+
+          toggleElement([
+            { el: timerstartbtn, t: "hide" },
+            { el: timerresetbtn, t: "show" },
+            { el: timerresumebtn, t: "show" },
+            { el: timerpausetbtn, t: "hide" }
+          ]);
+        });
+
+        // RESET Timer On click
+        $(timerresetbtn).on("click", function() {
+          timer1.trigger("resetime");
+
+          toggleElement([
+            { el: timerstartbtn, t: "show" },
+            { el: timerresetbtn, t: "show" },
+            { el: timerresumebtn, t: "hide" },
+            { el: timerpausetbtn, t: "hide" }
+          ]);
+        });
+
+        // RESUME Timer On click
+        $(timerresumebtn).on("click", function() {
+          timer1.trigger("resume");
+
+          toggleElement([
+            { el: timerstartbtn, t: "hide" },
+            { el: timerresetbtn, t: "show" },
+            { el: timerresumebtn, t: "hide" },
+            { el: timerpausetbtn, t: "show" }
+          ]);
+        });
+      })(jQuery);
+    </script>
+  </body>
+</html>
